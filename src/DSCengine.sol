@@ -43,11 +43,11 @@ contract DSCEngine is ReentrancyGuard  {
 
     DecentralizedStableCoin immutable private i_dsc;
 
-    constructor() {
-        address[] memory tokenAddresses;
-        address[] memory pricefeedAddresses;
-         address i_dscAddress;
-
+    constructor(
+        address[] memory tokenAddresses,
+        address[] memory pricefeedAddresses,
+         address i_dscAddress)
+{
 if(tokenAddresses.length != pricefeedAddresses.length){
     revert tokenAddressesAndPriceFeedAddressesMustBeTheSameLength();
 }
