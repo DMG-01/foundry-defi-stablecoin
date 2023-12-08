@@ -141,7 +141,7 @@ s_DscMinted[onBehalfOf] -= amountDscToBurn;
 
 }
 
-function getAccountInformation(address user) private view returns(uint256 totalDscMinted,uint256 totalCollateralInUsd) {
+function _getAccountInformation(address user) private view returns(uint256 totalDscMinted,uint256 totalCollateralInUsd) {
     totalDscMinted = s_DscMinted[user];
     totalCollateralInUsd = getAccountCollateralValue(user);
 }
@@ -183,5 +183,10 @@ function getUsdValue(address token, uint256 amount) public view returns(uint256)
 AggregatorV3Interface priceFeed = AggregatorV3Interface(s_priceFeeds[token]);
 (,int256 price,,,) = priceFeed.latestRoundData();
 return ((uint256 (price) * ADDITIONAL_FEED_PRECISION) * amount)/PRECISION;
+}
+
+function  getAccountInformation(address user) public view returns(uint256 totalDscMinted,uint256 totalCollateralInUsd) {
+    (totalDscMinted,totalCollateralInUsd) = _getAccountInformation(user);
+    
 }
 }
