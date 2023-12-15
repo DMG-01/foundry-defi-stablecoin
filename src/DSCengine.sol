@@ -101,7 +101,8 @@ i_dsc = DecentralizedStableCoin(i_dscAddress);
      revertIfHealthFactorIsBroken(msg.sender);
      bool minted = i_dsc.mint(msg.sender, amountDscToMint);
      if(!minted) {
-        revert DSC__mintFailed();     }
+        revert DSC__mintFailed();   
+          }
     }
     function liquidate(uint256 debtToCover, address collateral, address user) external moreThanZero(debtToCover) nonReentrant  {
         uint256 startingHealthFactorOfTheUser = _healthFactor(user);
@@ -125,8 +126,9 @@ i_dsc = DecentralizedStableCoin(i_dscAddress);
     (, int price,,,) = priceFeed.latestRoundData();
     return(usdAmountInWei * PRECISION) / (uint256(price) * ADDITIONAL_FEED_PRECISION);
     }
-    function getHealthFactor() external view {
-    
+    function getHealthFactor( address user) external view returns(uint256) {
+    (uint256 healthFactor) = _healthFactor(user);
+    return healthFactor;
     }
 
 
@@ -138,7 +140,6 @@ s_DscMinted[onBehalfOf] -= amountDscToBurn;
         revert DSC_burnedFailed();
     }
     i_dsc.burn(amountDscToBurn);
-
 }
 
 function _getAccountInformation(address user) private view returns(uint256 totalDscMinted,uint256 totalCollateralInUsd) {
@@ -156,8 +157,8 @@ if(userHealthFactor < MIN_HEALTH_FACTOR) {
 function _healthFactor(address user) private view returns(uint256) {
 (uint256 totalDscMinted,uint256 totalCollateralInUsd) = getAccountInformation(user);
 uint256 collateralAdjustedForThreshold = (totalCollateralInUsd * LIQUIDATION_THRESHOLD) / 100;
-return (collateralAdjustedForThreshold * PRECISION) / totalDscMinted;
-
+uint256 healthFactor = (collateralAdjustedForThreshold * PRECISION) / totalDscMinted;
+return healthFactor;
 }
 
 function _redeemCollateral(address tokenCollateralAddress, uint256 amountCollateral, address from, address to) private {
