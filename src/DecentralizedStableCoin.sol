@@ -2,13 +2,16 @@
 
 pragma solidity^0.8.18;
 
-import {ERC20Burnable,ERC20}  from "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import {ERC20}  from "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import {ERC20Burnable} from "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+
 contract DecentralizedStableCoin is ERC20Burnable,Ownable{
 
 error DecentralizedStableCoin_amountMustBeMoreThanZero();
 error DecentralizedStableCoin_BurnAmountExceedsBalance();
 error DecentralizedStableCoin_NotZeroAddress();
+
     constructor() ERC20("DECENTRALIZED STABLECOIN", "DSC"){
 
     }
