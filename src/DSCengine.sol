@@ -190,4 +190,9 @@ function  getAccountInformation(address user) public view returns(uint256 totalD
     (totalDscMinted,totalCollateralInUsd) = _getAccountInformation(user);
     
 }
+
+function getAmountDeposited(address tokenCollateralAddress) public view returns(uint256) {
+    return(s_collateralDeposited[msg.sender][tokenCollateralAddress]);
+
+}
 }

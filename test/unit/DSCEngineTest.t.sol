@@ -171,4 +171,11 @@ uint256 public constant AMOUNT_DSC__TO_MINT = 10;
       dscEngine.mintDsc(0);
      vm.stopPrank();
     }
+    function testDepositCollateralWorks() public {
+        vm.startPrank(USER);
+        ERC20Mock(weth).approve(address(dscEngine),STARTING_ERC20_BALANCE);
+        dscEngine.depositCollateral(weth,STARTING_ERC20_BALANCE);
+        (uint256 balance) = dscEngine.getAmountDeposited(weth);
+        assertEq(balance,STARTING_ERC20_BALANCE); 
+    }
 }
